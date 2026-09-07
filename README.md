@@ -103,12 +103,15 @@ Anda dapat menjalankan project dengan **Docker Compose (Sekali Command)** atau *
 Seluruh service (MySQL, Backend NestJS, dan Frontend Nginx React) telah dikonfigurasi dalam `docker-compose.yml` di root direktori.
 
 ```bash
-# Jalankan seluruh stack container di background
+# 1. (Opsional) Salin konfigurasi environment default
+cp .env.example .env
+
+# 2. Jalankan seluruh stack container di background
 docker compose up --build -d
 ```
 
 > **Catatan Otomatisasi Docker:**
-> - Container `dexa-mysql` otomatis siap dengan database `dexa` pada port host `3309` (dapat dikonfigurasi via `MYSQL_PORT`).
+> - Container `dexa-mysql` otomatis siap dengan database `dexa` pada port host `3309` (dapat dikonfigurasi via `MYSQL_PORT` di `.env`).
 > - Container `dexa-backend` otomatis menunggu MySQL *healthy*, menjalankan seeder akun awal (`hrd@dexa.com`, dll), lalu menjalankan NestJS pada port `3000`.
 > - Container `dexa-frontend` otomatis meng-compile aset produksi dan menyajikan via Nginx pada port `5173` dengan reverse proxy API otomatis.
 
@@ -136,7 +139,8 @@ docker compose down -v
 ```bash
 cd backend
 
-# 1. Install dependencies
+# 1. Konfigurasi Environment & Dependencies
+cp .env.example .env
 npm install
 
 # 2. Jalankan database seeder (Admin HRD & sampel karyawan)
